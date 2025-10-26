@@ -1,0 +1,139 @@
+practical no.11
+
+
+
+show dbs
+admin    40.00 KiB
+config   88.00 KiB
+demoxx   68.00 KiB
+fees    112.00 KiB
+local    76.00 KiB
+use banks
+switched to db banks
+banks> db.Banks.insertMany([{cid:111,c_name:'vedant',b_name:'SBI',branch:'talegaon',bal:123000}]);
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('68fe7127c8a8a0c102cebea4') }
+}
+banks> db.Banks.insertMany([{cid:112,c_name:'arpan',b_name:'axis',branch:'pune',bal:9811200}]);
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('68fe714ec8a8a0c102cebea5') }
+}
+banks> db.Banks.insertMany([{cid:103,c_name:'om',b_name:'HDFC',branch:'kolkata',bal:12030000}]);
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('68fe7173c8a8a0c102cebea6') }
+}
+banks> db.Banks.insertMany([{cid:114,c_name:'vedang',b_name:'idfc',branch:'mumbai',bal:41230000}]);
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('68fe71a7c8a8a0c102cebea7') }
+}
+banks>  db.Banks.insertMany([{cid:115,c_name:'ayush',b_name:'Axis',branch:'mumbai',bal:30000}]);
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('68fe71f2c8a8a0c102cebea8') }
+}
+banks>  db.Banks.insertMany([{cid:116,c_name:'rajesh',b_name:'kotak',branch:'delhi',bal:32265000}]);
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('68fe7212c8a8a0c102cebea9') }
+}
+banks> db.Banks.insertMany([{cid:117,c_name:'sparsh',b_name:'Axis',branch:'pimpri',bal:42350670}]);
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('68fe723cc8a8a0c102cebeaa') }
+}
+banks> db.Banks.insertMany([{cid:108,c_name:'aryan',b_name:'sbi',branch:'kerla',bal:52243210}]);
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId('68fe726dc8a8a0c102cebeab') }
+}
+banks> db.Banks.find();
+[
+  {
+    _id: ObjectId('68fe7127c8a8a0c102cebea4'),
+    cid: 111,
+    c_name: 'vedant',
+    b_name: 'SBI',
+    branch: 'talegaon',
+    bal: 123000
+  },
+  {
+    _id: ObjectId('68fe714ec8a8a0c102cebea5'),
+    cid: 112,
+    c_name: 'arpan',
+    b_name: 'axis',
+    branch: 'pune',
+    bal: 9811200
+  },
+  {
+    _id: ObjectId('68fe7173c8a8a0c102cebea6'),
+    cid: 103,
+    c_name: 'om',
+    b_name: 'HDFC',
+    branch: 'kolkata',
+    bal: 12030000
+  },
+  {
+    _id: ObjectId('68fe71a7c8a8a0c102cebea7'),
+    cid: 114,
+    c_name: 'vedang',
+    b_name: 'idfc',
+    branch: 'mumbai',
+    bal: 41230000
+  },
+  {
+    _id: ObjectId('68fe71f2c8a8a0c102cebea8'),
+    cid: 115,
+    c_name: 'ayush',
+    b_name: 'Axis',
+    branch: 'mumbai',
+    bal: 30000
+  },
+  {
+    _id: ObjectId('68fe7212c8a8a0c102cebea9'),
+    cid: 116,
+    c_name: 'rajesh',
+    b_name: 'kotak',
+    branch: 'delhi',
+    bal: 32265000
+  },
+  {
+    _id: ObjectId('68fe723cc8a8a0c102cebeaa'),
+    cid: 117,
+    c_name: 'sparsh',
+    b_name: 'Axis',
+    branch: 'pimpri',
+    bal: 42350670
+  },
+  {
+    _id: ObjectId('68fe726dc8a8a0c102cebeab'),
+    cid: 108,
+    c_name: 'aryan',
+    b_name: 'sbi',
+    branch: 'kerla',
+    bal: 52243210
+  }
+]
+banks>  var map=function(){emit(this.cid,this.bal)};
+
+banks>  var reduce=function(cid,bal){return Array.sum(bal)}
+
+banks> db.Banks.mapReduce(map,reduce,{out:'transactions'})
+DeprecationWarning: Collection.mapReduce() is deprecated. Use an aggregation instead.
+See https://mongodb.com/docs/manual/core/map-reduce for details.
+{ result: 'transactions', ok: 1 }
+banks> db.transactions.find();
+[
+  { _id: 114, value: 41230000 },
+  { _id: 112, value: 9811200 },
+  { _id: 111, value: 123000 },
+  { _id: 103, value: 12030000 },
+  { _id: 115, value: 30000 },
+  { _id: 116, value: 32265000 },
+  { _id: 117, value: 42350670 },
+  { _id: 108, value: 52243210 }
+]
+banks>
